@@ -1,0 +1,35 @@
+import pandas as pd;
+import os;
+
+os.getcwd()
+
+os.chdir("D:/Data/DataScience/Practice/titanic/")
+
+print(os.getcwd())
+
+titanic_tain = pd.read_csv("train.csv")
+#print(titanic_tain)
+#access multiple columns
+titanic_tain['Sex']#access single column
+titanic_tain[['Sex','Survived']]#access multiple columns
+
+#access rows: row level accessing 
+print(titanic_tain.iloc[0,1])
+print(titanic_tain.iloc[1:5,1])
+print(titanic_tain.iloc[1:5,1:3])
+print(titanic_tain.iloc[1:5,3:4])#will not work
+print(titanic_tain.iloc[1:5,'Name'])#will not work
+
+#access rows and columns
+print(titanic_tain.loc[1:5,'Name'])
+
+
+#I want to print only header of table
+titanic_tain.head(0)
+titanic_tain.tail(5)
+##Summary iloc works for data slicing
+#          loc works for conditional
+
+#conditional access
+
+#
