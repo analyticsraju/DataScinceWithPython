@@ -42,7 +42,7 @@ y_traindummy.shape
 cvs = model_selection.cross_val_score(ggg_tree, traindummy, y_traindummy, cv= 10)
 
 output = cvs.mean()
-print(output)
+print(output) #49.99% at local model evaluation with DecisionTreeClassifier algorithm
 ggg_tree.fit(traindummy, y_traindummy)
 
 testgggdf = pd.read_csv('test.csv')
@@ -53,3 +53,5 @@ testdummy.shape
 #x_testdummy = testdummy.drop(['bone_length','rotting_flesh','has_soul'],1)
 testgggdf['type']=ggg_tree.predict(testdummy)
 testgggdf.to_csv("submission2.csv",columns=['id','type'],index=False)
+#Output: Kaggle submission got 55.55%
+#To get more percentage, need to analyse the data and find suitable algorithm, and then will expect good results
