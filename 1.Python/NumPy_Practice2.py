@@ -1,3 +1,6 @@
+#https://docs.scipy.org/doc/numpy-dev/user/quickstart.html
+#All below examples are at above url
+
 import numpy as np
 from numpy import pi
 
