@@ -1,4 +1,5 @@
-
+#https://docs.scipy.org/doc/numpy-dev/user/quickstart.html
+#All below examples are at above url
 
 height=[1,2,3.2,2.1,4.5]
 weight=[45,40,45,25,25]
