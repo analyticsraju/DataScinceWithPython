@@ -1,3 +1,4 @@
+#Titanic data manual analysis, how many got survived 
 import pandas as pd;
 import os
 os.getcwd()
