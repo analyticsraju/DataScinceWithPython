@@ -1,3 +1,4 @@
+#Titanic data analysis, modifying the data set
 import pandas as pd;
 import os
 os.getcwd()
