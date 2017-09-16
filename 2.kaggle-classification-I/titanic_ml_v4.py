@@ -1,3 +1,5 @@
+#Introduction to Datascience life cycle. 
+#Introduction to ML algorithms
 import os
 import pandas as pd
 from sklearn import tree
