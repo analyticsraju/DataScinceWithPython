@@ -139,6 +139,101 @@ gangadf.to_csv('rajuout.csv',index=False, header=False)
 
 
 
+#Handling Missing Data
+CompanyDF = pd.read_csv('NSE-COMP.csv')
+
+CompanyDF.columns
+CompanyDF.head(5)
+
+df=pd.read_csv('NSE-COMP.csv', parse_dates=['Date'])
+df.head(5)
+
+df.set_index('Date', inplace=True)
+df.head(5)
+df.columns
+
+#fill na with forward values
+df.fillna(method='ffill', inplace=True)
+
+#fill na with backward values
+df=pd.read_csv('NSE-COMP.csv', parse_dates=['Date'])
+df.head(5)
+df.fillna(method='bfill', inplace=True)
+df.head(5)
+
+
+df=pd.read_csv('NSE-COMP.csv', parse_dates=['Date'])
+df.head(5)
+newdf = df.interpolate(method='linear')#default method=linear
+newdf.head(5)
+
+df=pd.read_csv('NSE-COMP.csv', parse_dates=['Date'])
+df.head(5)
+newdf = df.interpolate(method='time')#default method=time
+newdf.head(5)
+
+#if nan record drop, then dropna() will drop from data frame
+df=pd.read_csv('NSE-COMP.csv', parse_dates=['Date'])
+df.head(5)
+df.dropna(inplace=True)
+df.head(5)
+
+#Data Wrangling in advence mode with repalce function.
+df=pd.read_csv('NSE-COMP2.csv')
+df.head(5)
+df = df.replace(0,np.NaN)
+df.head(5)
+df.fillna(method='bfill', inplace=True)
+df.head(5)
+
+#repalce 297.5hh with 0 in entire data
+df.replace('297.5hh',0, inplace=True)
+df.head(5)
+
+#repalce in D column '30dfgs1.15' with NaN in entire data
+df.replace({'D':'30dfgs1.15'},np.NaN, inplace=True)
+df.head(5)
+
+#repalce 300.0,300.50 with NaN in entire data
+df.replace({300.0:np.NaN, 300.50:np.NaN},inplace=True)
+df.head(5)
+
+#repalcing data with regex
+df=pd.read_csv('NSE-COMP2.csv')
+df.head(5)
+df.replace('[A-Za-z]','',regex=True, inplace=True)
+df.head(5)
+
+ndf = pd.DataFrame ({'Student': ['Arun', 'Bhaskar', 'Chetan', 'Ramya', 'Manjula'],'Grade': ['Good','Average','Excellent','Outstanding','Poor']})
+ndf.replace({'Good':'A','Average':'B'},inplace=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
