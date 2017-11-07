@@ -1,0 +1,238 @@
+import pandas as pd
+import os
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn import neighbors
+from sklearn import model_selection, metrics, preprocessing
+import math
+
+########################Data Preparation#########################
+#Files: Concatenatio/Merging
+def filesConcat(train, test):
+    return pd.concat([train, test])
+#Files: Splitting
+def fileSplit(df, index):
+    return (df[:index], df[index:])
+
+#########PLOTTING/VISUALIZATION#######################################
+#ContinuousVsCategorical
+#def vizContVsCate(feature, target):
+    
+#ContinuousVsContinuous
+#def vizContVsCont(feature, target):
+    
+    
+#CategoricalVsCategorical
+#def vizCateVsCate(feature, target):
+    
+#Continuous
+#def vizCont(feature):
+    
+#Categorical
+#def vizCate(feature):
+    
+#multiple graphs inside one graph
+#def vizAllFeatureInOneGrid(features, target):
+
+###########Feature Engineering###########################################
+#Get Continuous columns
+def getContinuousColumns(df):
+    print("<=============all continuous columns===============>")
+    return df.select_dtypes(include=['number']).columns
+
+#Get Categorical columns
+def getCategoricalColumns(df):
+    print("<=============all categoric columns===============>")
+    return df.select_dtypes(include=['object']).columns
+
+#categorical=>continuous
+#Ex: nuemeric categorical=>continuous
+def transformCateToCont(df, features, mappings):
+    for feature in features:
+        null_idx = df[feature].isnull()
+        df.loc[null_idx, feature] = None
+        df[feature] = df[feature].map(mappings)
+#continuous=>categorical
+def transformContToCate(df, features):
+    for feature in features:
+        df[feature] = df[feature].astype('category')
+
+#Filter Missing Data
+def filterFeatures(df, features):
+    df.drop(features, inplace=True, axis=1)
+
+#def filterMissingDataFeatures(df, cutoff):
+    #totalMissings = df
+
+
+#Model Building
+#Model: Fitting
+#Model: Prediction
+
+
+#Actual Coding Starts Here
+os.chdir('D:/Data/DataScience/Practice/HousePrices/')
+
+train = pd.read_csv('train.csv')
+test = pd.read_csv('test.csv')
+
+train.info()
+#object means string
+train.describe()
+train.shape
+test['SalePrice']=0
+test.info()
+#Merging two files train and test
+all_houses = filesConcat(train, test)
+train.info()
+#object means string
+train.describe()
+train.shape
+#Get All Continuous Columns
+all_houses_cont_cols = getContinuousColumns(all_houses)
+#Get All Categorical Columns
+all_houses_cat_cols = getCategoricalColumns(all_houses)
+
+
+all_houses.groupby('SaleCondition').size()
+all_houses.groupby('MSSubClass').size()
+all_houses.groupby('SaleType').size()
+
+continus_column = ['MSSubClass']
+
+#Converting to Continuous to Categorical
+transformContToCate(all_houses, continus_column)
+
+all_houses.info()
+
+Sale_cond_map={'Abnorml':1,'AdjLand':2,'Alloca':3,'Family':4,'Normal':5,'Partial':6}
+transformCateToCont(all_houses, ['SaleCondition'], Sale_cond_map)
+
+SaleType = {'COD':1,'CWD':2,'Con':3,'ConLD':4,'ConLI':5,'ConLw':6,'New':7,'Oth':8,'WD':9}
+transformCateToCont(all_houses, ['SaleCondition'], Sale_cond_map)
+
+#after analysing(groupby) data, below columns are categorical columns and holding same kind of data.
+#So I am Converting to Cate(String) to Continuous Data.
+cat_columns = ["ExterQual", "ExterCond", "BsmtQual", "BsmtCond", "GarageQual", "GarageCond", "PoolQC", "FireplaceQu", "KitchenQual", "HeatingQC"]
+mappings = {None: 0, "Po": 1, "Fa": 2, "TA": 3, "Gd": 4, "Ex": 5}
+transformCateToCont(all_houses, cat_columns, mappings)
+
+all_houses['ExterQual']
+print(getContinuousColumns(all_houses))
+print(getCategoricalColumns(all_houses))
+
+#SPLIT the data??????????
+#Seems there is some columns have less data, that need to removed in train data.
+#train_updtd, test_updtd = fileSplit(all_houses, train.shape[0])
+
+#Filter missing data
+total_missing_train = all_houses.isnull().sum()
+n_train = train.shape[0]
+to_delete_train = total_missing_train[(total_missing_train/n_train) > 0.2 ]
+missingDataFeatures_train = list(to_delete_train.index)
+all_houses.info()
+#Droping missing data features from train data.
+filterFeatures(all_houses,missingDataFeatures_train)
+
+cont_features = getContinuousColumns(all_houses)
+cat_features = getCategoricalColumns(all_houses)
+float_features = all_houses.select_dtypes(include=['float']).columns
+print(len(cont_features))
+print(len(cat_features))
+print(len(float_features))
+print(len(cont_features)+len(cat_features)+len(float_features))
+
+
+
+
+    
+mean_imputer = preprocessing.Imputer()
+mean_imputer.fit(all_houses[cont_features])
+#mean_imputer.fit(all_houses[float_features])
+mode_imputer = preprocessing.Imputer(strategy="most_frequent", axis=1)
+mode_imputer.fit(all_houses[cat_features])    
+
+#all_houses.fillna=None
+
+#Explore relationship to Neighbourhood to SalePrice
+plt.xticks(rotation=45)
+sns.boxplot(x='Neighborhood', y='SalePrice',data=all_houses)
+
+#Smooth the SalePrice using log transformation
+all_houses['log_sale_price'] = np.log(all_houses['SalePrice'])
+features = ['SalePrice', 'log_sale_price']
+sns.distplot(all_houses['log_sale_price'],kde=False)
+
+sns.jointplot(x = 'log_sale_price', y = 'SalePrice', data = all_houses)
+all_houses.describe()
+all_houses.info()
+
+#explore all features continusous features vs SalePrice
+corr = all_houses.select_dtypes(include=['number']).corr()
+sns.heatmap(corr, square=True)
+plt.xticks(rotation=70)
+plt.yticks(rotation=70)
+
+#explore relationship of livarea and totalbsmt to SalePrice
+features = ['GrLivArea', 'TotalBsmtSF']
+for feature in features:
+    sns.jointplot(x=feature, y='SalePrice',data=all_houses)
+
+all_houses.info()
+filterFeatures(all_houses,['Id'])
+
+#do one hot encoding
+all_houses.info()
+all_houses_onehot = pd.get_dummies(all_houses, getCategoricalColumns(all_houses))
+all_houses_onehot.info()
+
+train_updtd, test_updtd = fileSplit(all_houses_onehot, train.shape[0])
+
+y_train=train_updtd['SalePrice']
+filterFeatures(train_updtd, ['SalePrice','log_sale_price'])
+X_train=train_updtd
+X_train.info()
+
+
+def rmse(y_orig, y_pred):
+    return math.sqrt(metrics.mean_squared_error(y_orig,y_pred))
+
+knn_estimator = neighbors.KNeighborsRegressor()
+knn_grid = {'n_neighbors':[1,2,3,5,7,9,11]}
+grid_knn_estimator = model_selection.GridSearchCV(knn_estimator,knn_grid,scoring=metrics.make_scorer(rmse),cv=10,n_jobs=1)
+grid_knn_estimator.fit(X_train, y_train)
+print(grid_knn_estimator.grid_scores_)
+print(grid_knn_estimator.best_params_)
+print(grid_knn_estimator.best_score_)
+print(grid_knn_estimator.score(X_train, y_train))
+estimator = grid_knn_estimator.best_estimator_
+
+##################Final Prections Preparation
+
+#total_missing_test = test_updtd.isnull().sum()
+#n_test = test.shape[0]
+#to_delete_test = total_missing_test[(total_missing_test/n_test) > 0 ]
+#missingDataFeaturestes_test = list(to_delete_test.index)
+#test_updtd.info()
+
+#filterFeatures(test_updtd,missingDataFeatures_train)
+#filterFeatures(test_updtd,['Id'])
+
+#test_updtd.info()
+#test_onehot = pd.get_dummies(test_updtd, getCategoricalColumns(test_updtd))
+#test_onehot.info()
+#filterFeatures(test_updtd, ['SalePrice'])
+
+filterFeatures(test_updtd, ['SalePrice','log_sale_price'])
+X_test = test_updtd
+X_test.shape
+X_test.info()
+filterFeatures(test,['SalePrice'])
+
+test['SalePrice'] = grid_knn_estimator.predict(X_test)
+
+test.to_csv('submission.csv', columns=['Id','SalePrice'],index=False)
+print('<=====================Model Execution Completed===============>')
+
+
