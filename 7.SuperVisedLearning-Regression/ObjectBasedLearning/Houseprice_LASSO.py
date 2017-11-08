@@ -190,10 +190,6 @@ filterFeatures(train_updtd, ['SalePrice','log_sale_price'])
 X_train=train_updtd
 X_train.info()
 
-
-def rmse(y_orig, y_pred):
-    return math.sqrt(metrics.mean_squared_error(y_orig,y_pred))
-
 lasso_estimator = linear_model.Lasso(random_state=2017)
 lasso_grid = {'alpha':[0.0,0.2,0.4,0.6,0.8,1.0]}
 grid_lasso_estimator = model_selection.GridSearchCV(lasso_estimator,lasso_grid,cv=10)
