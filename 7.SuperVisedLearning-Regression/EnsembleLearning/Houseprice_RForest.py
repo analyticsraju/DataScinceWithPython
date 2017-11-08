@@ -191,9 +191,6 @@ X_train=train_updtd
 X_train.info()
 
 
-def rmse(y_orig, y_pred):
-    return math.sqrt(metrics.mean_squared_error(y_orig,y_pred))
-
 rf_estimator = ensemble.RandomForestRegressor(random_state=2017)
 rf_grid = {'n_estimators':[50,100],'max_features':[12,13,14,15,16,17,18,19,20], 'n_jobs':[1]}
 grid_rf_estimator = model_selection.GridSearchCV(rf_estimator,rf_grid,cv=10)
