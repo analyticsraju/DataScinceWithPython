@@ -191,9 +191,6 @@ X_train=train_updtd
 X_train.info()
 
 
-def rmse(y_orig, y_pred):
-    return math.sqrt(metrics.mean_squared_error(y_orig,y_pred))
-
 gbm_estimator = ensemble.GradientBoostingRegressor(random_state=2017)
 gbm_grid = {'learning_rate':[0.1,0.3,0.5,0.7,0.9], 'n_estimators':[50,100],
             'max_features':[12,13,14,15,16,17,18,19,20]}
