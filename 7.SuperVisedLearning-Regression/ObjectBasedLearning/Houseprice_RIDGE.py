@@ -191,9 +191,6 @@ X_train=train_updtd
 X_train.info()
 
 
-def rmse(y_orig, y_pred):
-    return math.sqrt(metrics.mean_squared_error(y_orig,y_pred))
-
 ridge_estimator = linear_model.Ridge(random_state=2017)
 ridge_grid = {'alpha':[0.0,0.2,0.4,0.6,0.8,1.0]}
 grid_ridge_estimator = model_selection.GridSearchCV(ridge_estimator,ridge_grid,cv=10)
