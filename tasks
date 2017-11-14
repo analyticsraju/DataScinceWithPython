@@ -1,0 +1,28 @@
+1. Implement ML examples in spark 
+  Ex: Titanic with all classification algorithms
+  Ex: House Sale Price predictions with all regression algorithms
+  
+2. Deep Learning 
+   1. identify major algorithms in Deep Learning
+      CNN, RNN, FFNN...
+      High level overview which algoritm for what purpose
+      1. NLP(audio)
+         Find algorithms needed for audio analysis
+         NLP Audio
+         Flow chart Request=>(conversion audio to text(unstructured) to structured to db)
+         Flow chart Response=>(conversion Structured text to text(unstructured) to audio or text assist)
+      2. NLP(unstuctured text)
+         Find algorithms needed for text analysis
+         NLP Text
+         Flow chart Request=>(conversion text(unstructured) to structured to db)
+         Flow chart Response=>(conversion Structured text to text(unstructured) to text assist)
+      2. Image Processing
+         Find algorithms for Image processing
+         Flow
+      3. Video Processing
+         Find algorithms for video processing
+         Flow
+   
+   2. Install Keras
+   3. Install tensor flow
+   
