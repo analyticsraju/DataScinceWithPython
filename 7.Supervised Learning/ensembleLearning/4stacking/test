@@ -1,1 +1,9 @@
-test
+#to check/see all available/installed packages in anaconda
+conda list
+#if not xgb package installed, please use below command
+conda install py-xgboost
+
+#Installation Testing
+python
+-->import xgboost as xgb
+#should not give any error message, warnings are OK
