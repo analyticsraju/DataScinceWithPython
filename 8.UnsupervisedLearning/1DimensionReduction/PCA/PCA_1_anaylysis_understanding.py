@@ -6,7 +6,7 @@ df1= pd.DataFrame({
         'X1':[10,2,8,9,12],
         'X2':[20,5,17,20,22],
         'X3':[10,2,7,10,11]})
-pca = decomposition.PCA(1)#Here input(3 features, 3 argument) output=3features
+pca = decomposition.PCA(3)#Here input(3 features, 3 argument) output=3features
 #input(3 features, 2 argument) output=2features
 #input(3 features, 1 argument) output=1features
 #input(3 features, 0 argument) output=0features
@@ -38,7 +38,8 @@ pca.fit(df1)
 pca.explained_variance_
 pca.components_[0]
 pca.components_[1]
-df1_pca = pca.transform(df1)from sklearn import decomposition
+df1_pca = pca.transform(df1) 
+from sklearn import decomposition
 import seaborn as sns
 import pandas as pd
 
