@@ -1,1 +1,5 @@
 AssociationAnalysisNotes
+
+
+1. SkLearn not supporting Association algorithms(Apriori, Eclat, etc)
+2. MLExtend supporting Association algorithms
