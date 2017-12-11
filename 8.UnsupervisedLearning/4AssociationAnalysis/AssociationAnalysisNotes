@@ -2,4 +2,6 @@ AssociationAnalysisNotes
 
 
 1. SkLearn not supporting Association algorithms(Apriori, Eclat, etc)
-2. MLExtend supporting Association algorithms
+2. MLExtend supporting Association algorithms(please install MLExtend and work with association algorithms)
+3. MLExtend supports Robost PCA, XGB(Xtra Gradient Boosting) aswell.
+4. Spark also supporting Association algorithms.
